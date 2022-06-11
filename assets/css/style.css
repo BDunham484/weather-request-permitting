@@ -1,3 +1,47 @@
 body {
     overflow: hidden;
 }
+
+header {
+    background-color: #312244;
+}
+
+#search {
+    background-color: #EBECE9;
+}
+
+h2 {
+    background-color: #A9ACA9 !important;
+}
+
+#city-list {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+/* current weather data section */
+#current-bg {
+    background-color: #144552;
+}
+#current-conditions {
+    list-style: none;
+    padding: 2vh 0;
+    color:antiquewhite;
+    font-weight: 400;
+    font-size: 1.5rem;
+}
+
+#current-city {
+    font-family: 'Cabin', sans-serif;
+    font-weight: 700;
+    font-size: 3rem;
+    font-style: italic;
+    text-decoration: underline;
+    
+}
+
+/* 5day forecast styles */
+
+#five-day {
+    background-color: #60495A;
+}
