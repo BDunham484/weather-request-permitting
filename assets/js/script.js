@@ -9,9 +9,37 @@ var currentTempEl = document.querySelector("#current-temp");
 var currentHumidityEl = document.querySelector("#current-humidity");
 var currentWindSpeedEl = document.querySelector("#current-wind-speed");
 var currentUviEl = document.querySelector("#current-uvi");
+var fcastTemp1 = document.querySelector("#temp-1");
+var fcastTemp2 = document.querySelector("#temp-2");
+var fcastTemp3 = document.querySelector("#temp-3");
+var fcastTemp4 = document.querySelector("#temp-4");
+var fcastTemp5 = document.querySelector("#temp-5");
+var fcastWind1 = document.querySelector("#wind-1");
+var fcastWind2 = document.querySelector("#wind-2");
+var fcastWind3 = document.querySelector("#wind-3");
+var fcastWind4 = document.querySelector("#wind-4");
+var fcastWind5 = document.querySelector("#wind-5");
+var fcastHumidity1 = document.querySelector("#humidity-1");
+var fcastHumidity2 = document.querySelector("#humidity-2");
+var fcastHumidity3 = document.querySelector("#humidity-3");
+var fcastHumidity4 = document.querySelector("#humidity-4");
+var fcastHumidity5 = document.querySelector("#humidity-5");
+var forecast1 = document.querySelector("#forecast-1");
+var forecast2 = document.querySelector("#forecast-2");
+var forecast3 = document.querySelector("#forecast-3");
+var forecast4 = document.querySelector("#forecast-4");
+var forecast5 = document.querySelector("#forecast-5");
+
 
 
 var citiesArr = [];
+var forecastTemps = [];
+var forecastWinds = [];
+var forecastHumidities = [];
+var fcastLists = [forecast1, forecast2, forecast3, forecast4, forecast5];
+var fcastTemps = [fcastTemp1, fcastTemp2, fcastTemp3, fcastTemp4, fcastTemp5];
+var fcastWinds = [fcastWind1, fcastWind2, fcastWind3, fcastWind4, fcastWind5];
+var fcastHumidities = [fcastHumidity1, fcastHumidity2, fcastHumidity3, fcastHumidity4, fcastHumidity5];
 
 
 
@@ -22,18 +50,17 @@ var formSubmitHandler = function(event) {
     //get value from input element
     var city = cityEl.value.trim();
     if (city) {
-        //call createButton() function 
+        //call createButton()
         createButton(city);
-        //call citySaves() function
+        //call citySaves()
         citySaves(city);
-        console.log("The selected city is " + city)
+        //call getCoordinates()
         getCoordinates(city);
         cityEl.value = "";
     } else {
         alert("Please enter a city")
-    }
-
-}
+    };
+};
 
 
 
@@ -72,7 +99,6 @@ var citySaves = function(city) {
 var cityLoad = function() {
     //conditional that determines whether localStorage is empty or not
     if (localStorage.getItem("cities:") === null) {
-        console.log("localStorage is empty")
     } else {
         var parsedCitiesArr = JSON.parse(localStorage.getItem("cities:")); 
         //loops through the array in localstorage and 
@@ -92,15 +118,12 @@ var cityLoad = function() {
 
 //function that fetches the coordinates by location name api
 var getCoordinates = function(city) {
-    console.log(city)
     var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
 
     fetch(apiUrl).then(function(response) {
         //request was succesful
         if (response.ok) {
             response.json().then(function(data) {
-                console.log("latitude=" + data[0].lat)
-                console.log("longitude=" + data[0].lon)
                 //capture the latitude and longitude of the entered city
                 var cityLat = data[0].lat;
                 var cityLon = data[0].lon;
@@ -121,19 +144,34 @@ var getCoordinates = function(city) {
 
 //function that takes the lat and long from getCoordinates() and fetch weather data from openWeather
 var getCurrentWeather = function(lat, lon, city) {
-    var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,daily,alerts&units=imperial&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
+    var apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
     
+
     fetch(apiUrl).then(function(response) {
         //request was succesful
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(city);
-                console.log(data);
                 var currentTemp = data.current.temp
                 var currentHumidity = data.current.humidity
                 var currentWindSpeed = data.current.wind_speed
                 var currentUvi = data.current.uvi
+                
+                while(forecastTemps.length > 0) {
+                    forecastTemps.pop();
+                }
+                while(forecastWinds.length > 0) {
+                    forecastWinds.pop();
+                }
+                while(forecastHumidities.length > 0) {
+                    forecastHumidities.pop();
+                }
+                for (var i = 0; i <= 5; i++) {
+                    forecastTemps.push(data.daily[i].temp.day);
+                    forecastWinds.push(data.daily[i].wind_speed);
+                    forecastHumidities.push(data.daily[i].humidity)
+                }
                 displayCurrentWeather(city, currentTemp, currentHumidity, currentWindSpeed, currentUvi)
+                forecastData();
             });
         } else {
             console.log("Error: Shit aint working");
@@ -147,10 +185,23 @@ var getCurrentWeather = function(lat, lon, city) {
 
 
 
+
+//function that gets the current date
+var currentDate = function() {
+    date = moment(new Date())
+    $("#current-date").text(date.format('dddd, MMMM Do YYYY'));
+};
+
+$(document).ready(function(){
+    currentDate();
+    setInterval(currentDate, (1000 * 60) * 5);
+});
+
+
 //function that display the current weather data dynamically to the page
 var displayCurrentWeather = function(city, temp, humidity, windSpeed, uvi) {
     currentCityEl.textContent = city.toUpperCase();
-    currentDateEl.textContent = "6/11/2022";
+    // currentDateEl.textContent = "6/11/2022";
     currentIconEl.textContent = "icon";
     currentTempEl.textContent = "Temp: " + temp + " Deg.";
     currentHumidityEl.textContent = "Humidity: " + humidity + "%";
@@ -171,7 +222,24 @@ var displayCurrentWeather = function(city, temp, humidity, windSpeed, uvi) {
 
 
 
-// displayCurrentWeather("AUSTIN", "100", "40", "20", "10")
+//function that displays the forecast data
+var forecastData = function() {
+    for (var i = 0; i < 5; i++) {
+        fcastTemps[i].textContent = "Temp: " + forecastTemps[i];
+        fcastWinds[i].textContent = "Wind-Speed: " + forecastWinds[i] + " mph";
+        fcastHumidities[i].textContent = "Humidity: " + forecastHumidities[i] + "%";
+
+        fcastLists[i].appendChild(fcastTemps[i]);
+        fcastLists[i].appendChild(fcastWinds[i]);
+        fcastLists[i].appendChild(fcastHumidities[i]);
+        
+    };
+};
+
+
+
+
+
 //calls cityLoad() on page load/refresh
 cityLoad();
 //form event listener on submit

@@ -1,5 +1,5 @@
 body {
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 header {
@@ -43,5 +43,37 @@ h2 {
 /* 5day forecast styles */
 
 #five-day {
-    background-color: #60495A;
+    background-color: #14213d;
+    color: antiquewhite;
+}
+
+h3 {
+    font-weight: 400;
+    font-size: 2rem;
+    font-style: italic;
+}
+
+#forecast-1 {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+#forecast-2 {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+#forecast-3 {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+#forecast-4 {
+    list-style: none;
+    padding-inline-start: 0;
+}
+
+#forecast-5 {
+    list-style: none;
+    padding-inline-start: 0;
 }
