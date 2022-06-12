@@ -138,7 +138,7 @@ var cityLoad = function() {
 
 //function that fetches the coordinates by location name api
 var getCoordinates = function(city) {
-    var apiUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
 
     fetch(apiUrl).then(function(response) {
         //request was succesful
@@ -239,7 +239,7 @@ $(document).ready(function(){
 var displayCurrentWeather = function(city, icon, iconAlt, temp, humidity, windSpeed, uvi) {
     //assigns text content of current weather data
     currentCityEl.textContent = city.toUpperCase();
-    currentIconEl.innerHTML = "<img src='http://openweathermap.org/img/wn/" + icon + ".png' alt='" + iconAlt + "'/> ";
+    currentIconEl.innerHTML = "<img src='https://openweathermap.org/img/wn/" + icon + ".png' alt='" + iconAlt + "'/> ";
     currentTempEl.textContent = "Temp: " + temp + " F°.";
     currentHumidityEl.textContent = "Humidity: " + humidity + "%";
     currentWindSpeedEl.textContent = "Wind Speed: " + windSpeed + " MPH";
@@ -277,7 +277,7 @@ var forecastData = function() {
     for (var i = 0; i < 5; i++) {
         var date = moment().add(i, "days");
         fcastDates[i].textContent = date.format("MMMM Do");
-        fcastIcons[i].innerHTML = "<img src='http://openweathermap.org/img/wn/" + forecastIcons[i] + ".png' alt='" + forecastIconAlts[i] + "'/> "
+        fcastIcons[i].innerHTML = "<img src='https://openweathermap.org/img/wn/" + forecastIcons[i] + ".png' alt='" + forecastIconAlts[i] + "'/> "
         fcastTemps[i].textContent = "Temp: " + forecastTemps[i] + " F°";
         fcastWinds[i].textContent = "Wind-Speed: " + forecastWinds[i] + " mph";
         fcastHumidities[i].textContent = "Humidity: " + forecastHumidities[i] + "%";
