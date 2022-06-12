@@ -4,7 +4,14 @@ body {
 
 header {
     background-color: #312244;
+    min-height: 7vh;
 }
+
+main {
+    min-height: 93vh;
+}
+
+
 
 #search {
     background-color: #EBECE9;
@@ -18,6 +25,19 @@ h2 {
     list-style: none;
     padding-inline-start: 0;
 }
+
+.row-height {
+    min-height: 93vh;;
+}
+
+.col-height {
+    min-height: 46.5vh;
+}
+
+#forecast-height {
+    min-height: 90%;
+}
+
 
 /* current weather data section */
 #current-bg {
@@ -38,6 +58,19 @@ h2 {
     font-style: italic;
     text-decoration: underline;
     
+}
+
+.favorable {
+    background-color: green;
+}
+
+.moderate {
+    background-color: yellow;
+    color: black;
+}
+
+.severe {
+    background-color: red;
 }
 
 /* 5day forecast styles */
@@ -76,4 +109,10 @@ h3 {
 #forecast-5 {
     list-style: none;
     padding-inline-start: 0;
+}
+
+h4 {
+    font-weight: 400;
+    font-size: 1rem;
+    font-style: italic;
 }

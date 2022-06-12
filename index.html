@@ -12,7 +12,7 @@
     
     <title>Weather Dashboard</title>
 </head>
-<body class="flex-column min-100-vh">
+<body class="flex-column">
     <header>
         <div class="container-fluid">
             <div class="row">
@@ -27,8 +27,8 @@
     </header>
     <main>
         <div class="container-fluid">
-            <div class="row vh-100">
-                <div class="col-12 col-lg-4 min-vh-25 border border-2 border-dark" id="search">
+            <div class="row row-height">
+                <div class="col-12 col-xl-4 min-vh-25 border border-2 border-dark" id="search">
                     <div class="card mt-5 border border-2 border-dark">
                         <h2 class="card-header text-uppercase border-bottom border-2 border-dark">
                             Search By City
@@ -43,9 +43,9 @@
 
                     </ul>
                 </div>
-                <div class="col-12 col-lg-8" id="conditions">
-                    <div class="row">
-                        <div class="col-12 border border-2 border-dark" id="current-bg">
+                <div class="col-12 col-xl-8" id="conditions">
+                    <div class="row row-height">
+                        <div class="col-12 border border-2 border-dark col-height" id="current-bg">
                             <ul class="ps-5 my-5" id="current-conditions">
                                 <li class="my-3" id="current-city">________</li>
                                 <li class="my-3" id="current-date"></li>
@@ -56,11 +56,11 @@
                                 <li class="my-3" id="current-uvi">UV Index:</li>
                             </ul>
                         </div>
-                        <div class="col-12 border border-2 border-dark vh-100" id="five-day">
+                        <div class="col-12 border border-2 border-dark col-height" id="five-day">
                             <h3>5-DAY FORECAST</h3>
-                           <div class="container-fluid">
-                                <div class="row justify-content-around">
-                                    <div class="card mt-5 border border-2 border-light bg-secondary col-2">
+                           <div class="container-fluid d-flex align-items-center justify-content-around mt-5 mt-md-0" id="forecast-height">
+                                <div class="row justify-content-around flex-column flex-md-row">
+                                    <div class="card border border-2 border-light bg-secondary col-md-2 my-3 my-md-0">
                                         <div id="f-one">
                                             <h4 class="card-header text-uppercase border-bottom border-2 border-light" id="day-1">
                                                 --/--/----
@@ -68,13 +68,13 @@
                                         </div>
                                         
                                         <ul id="forecast-1">
-                                            <li>---</li>
+                                            <li id="icon-1">---</li>
                                             <li id="temp-1">Temp: --.-</li>
                                             <li id="wind-1">Wind: -.-- MPH</li>
                                             <li id="humidity-1">Humidity: -- %</li>
                                         </ul>
                                     </div>
-                                    <div class="card mt-5 border border-2 border-light bg-secondary col-2">
+                                    <div class="card border border-2 border-light bg-secondary col-md-2 my-3 my-md-0">
                                         <div id="f-two">
                                             <h4 class="card-header text-uppercase border-bottom border-2 border-light" id="day-2">
                                                 --/--/----
@@ -82,13 +82,13 @@
                                         </div>
                                        
                                         <ul id="forecast-2">
-                                            <li>---</li>
+                                            <li id="icon-2">---</li>
                                             <li id="temp-2">Temp: --.-</li>
                                             <li id="wind-2">Wind: -.-- MPH</li>
                                             <li id="humidity-2">Humidity: -- %</li>
                                         </ul>
                                     </div>
-                                    <div class="card mt-5 border border-2 border-light bg-secondary col-2">
+                                    <div class="card border border-2 border-light bg-secondary col-md-2 my-3 my-md-0">
                                         <div id="f-three">
                                             <h4 class="card-header text-uppercase border-bottom border-2 border-light" id="day-3">
                                                 --/--/----
@@ -96,13 +96,13 @@
                                         </div>
                                         
                                         <ul id="forecast-3">
-                                            <li>---</li>
+                                            <li id="icon-3">---</li>
                                             <li id="temp-3">Temp: --.-</li>
                                             <li id="wind-3">Wind: -.-- MPH</li>
                                             <li id="humidity-3">Humidity: -- %</li>
                                         </ul>
                                     </div>
-                                    <div class="card mt-5 border border-2 border-light bg-secondary col-2">
+                                    <div class="card border border-2 border-light bg-secondary col-md-2 my-3 my-md-0">
                                         <div id="f-four">
                                             <h4 class="card-header text-uppercase border-bottom border-2 border-light" id="day-4">
                                                 --/--/----
@@ -110,13 +110,13 @@
                                         </div>
                                         
                                         <ul id="forecast-4">
-                                            <li>---</li>
+                                            <li id="icon-4">---</li>
                                             <li id="temp-4">Temp: --.-</li>
                                             <li id="wind-4">Wind: -.-- MPH</li>
                                             <li id="humidity-4">Humidity: -- %</li>
                                         </ul>
                                     </div>
-                                    <div class="card mt-5 border border-2 border-light bg-secondary col-2">
+                                    <div class="card border border-2 border-light bg-secondary col-md-2 my-3 my-md-0">
                                         <div id="f-five">
                                             <h4 class="card-header text-uppercase border-bottom border-2 border-light" id="day-5">
                                                 --/--/----
@@ -124,7 +124,7 @@
                                         </div>
                                         
                                         <ul id="forecast-5">
-                                            <li>---</li>
+                                            <li id="icon-5">---</li>
                                             <li id="temp-5">Temp: --.-</li>
                                             <li id="wind-5">Wind: -.-- MPH</li>
                                             <li id="humidity-5">Humidity: -- %</li>

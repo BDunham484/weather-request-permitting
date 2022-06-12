@@ -39,6 +39,11 @@ var fcastHeader2 = document.querySelector("#f-two");
 var fcastHeader3 = document.querySelector("#f-three");
 var fcastHeader4 = document.querySelector("#f-four");
 var fcastHeader5 = document.querySelector("#f-five");
+var fcastIcon1 = document.querySelector("#icon-1");
+var fcastIcon2 = document.querySelector("#icon-2");
+var fcastIcon3 = document.querySelector("#icon-3");
+var fcastIcon4 = document.querySelector("#icon-4");
+var fcastIcon5 = document.querySelector("#icon-5");
 
 
 
@@ -46,12 +51,15 @@ var citiesArr = [];
 var forecastTemps = [];
 var forecastWinds = [];
 var forecastHumidities = [];
+var forecastIcons = [];
+var forecastIconAlts = [];
 var fcastLists = [forecast1, forecast2, forecast3, forecast4, forecast5];
 var fcastTemps = [fcastTemp1, fcastTemp2, fcastTemp3, fcastTemp4, fcastTemp5];
 var fcastWinds = [fcastWind1, fcastWind2, fcastWind3, fcastWind4, fcastWind5];
 var fcastHumidities = [fcastHumidity1, fcastHumidity2, fcastHumidity3, fcastHumidity4, fcastHumidity5];
-var fcastDates = [fcastDay1, fcastDay2, fcastDay3, fcastDay4, fcastDay5]
-var fcastHeaders = [fcastHeader1, fcastHeader2, fcastHeader3, fcastHeader4, fcastHeader5]
+var fcastDates = [fcastDay1, fcastDay2, fcastDay3, fcastDay4, fcastDay5];
+var fcastHeaders = [fcastHeader1, fcastHeader2, fcastHeader3, fcastHeader4, fcastHeader5];
+var fcastIcons = [fcastIcon1, fcastIcon2, fcastIcon3, fcastIcon4, fcastIcon5];
 
 
 
@@ -165,11 +173,19 @@ var getCurrentWeather = function(lat, lon, city) {
             response.json().then(function(data) {
                 console.log(data)
                 //assign values to variables from fetch object data
+                var currentIcon = data.current.weather[0].icon
+                var currentIconAlt = data.current.weather[0].main
                 var currentTemp = data.current.temp
                 var currentHumidity = data.current.humidity
                 var currentWindSpeed = data.current.wind_speed
                 var currentUvi = data.current.uvi
                 //clear arrays
+                while(forecastIcons.length > 0) {
+                    forecastIcons.pop();
+                }
+                while(forecastIconAlts.length > 0) {
+                    forecastIconAlts.pop();
+                }
                 while(forecastTemps.length > 0) {
                     forecastTemps.pop();
                 }
@@ -180,13 +196,15 @@ var getCurrentWeather = function(lat, lon, city) {
                     forecastHumidities.pop();
                 }
                 //loop though forecast data
-                for (var i = 0; i <= 5; i++) {
+                for (var i = 0; i < 5; i++) {
+                    forecastIcons.push(data.daily[i].weather[0].icon);
+                    forecastIconAlts.push(data.daily[i].weather[0].main)
                     forecastTemps.push(data.daily[i].temp.day);
                     forecastWinds.push(data.daily[i].wind_speed);
                     forecastHumidities.push(data.daily[i].humidity)
                 }
                 //call next functions
-                displayCurrentWeather(city, currentTemp, currentHumidity, currentWindSpeed, currentUvi)
+                displayCurrentWeather(city, currentIcon, currentIconAlt, currentTemp, currentHumidity, currentWindSpeed, currentUvi)
                 forecastData();
             });
         } else {
@@ -214,18 +232,19 @@ $(document).ready(function(){
 });
 
 
+
+
+
 //function that display the current weather data dynamically to the page
-var displayCurrentWeather = function(city, temp, humidity, windSpeed, uvi) {
+var displayCurrentWeather = function(city, icon, iconAlt, temp, humidity, windSpeed, uvi) {
+    //assigns text content of current weather data
     currentCityEl.textContent = city.toUpperCase();
-    // currentDateEl.textContent = "6/11/2022";
-    currentIconEl.textContent = "icon";
-    currentTempEl.textContent = "Temp: " + temp + " Deg.";
+    currentIconEl.innerHTML = "<img src='http://openweathermap.org/img/wn/" + icon + ".png' alt='" + iconAlt + "'/> ";
+    currentTempEl.textContent = "Temp: " + temp + " F°.";
     currentHumidityEl.textContent = "Humidity: " + humidity + "%";
     currentWindSpeedEl.textContent = "Wind Speed: " + windSpeed + " MPH";
     currentUviEl.textContent = "UV Index: " + uvi;
-
-
-
+    //appends current weather data to the page
     currentCondEl.appendChild(currentCityEl);
     currentCondEl.appendChild(currentDateEl);
     currentCondEl.appendChild(currentIconEl);
@@ -233,6 +252,20 @@ var displayCurrentWeather = function(city, temp, humidity, windSpeed, uvi) {
     currentCondEl.appendChild(currentHumidityEl);
     currentCondEl.appendChild(currentWindSpeedEl);
     currentCondEl.appendChild(currentUviEl);
+    //conditional that sets background color based on uv index: favorbale, moderate, or severe.
+    if (uvi <= 2) {
+        $(currentUviEl).removeClass("moderate");
+        $(currentUviEl).removeClass("severe");
+        $(currentUviEl).addClass("favorable");
+    } else if (uvi > 2 && uvi <=5) {
+        $(currentUviEl).removeClass("favorable");
+        $(currentUviEl).removeClass("severe");
+        $(currentUviEl).addClass("moderate");
+    } else {
+        $(currentUviEl).removeClass("moderate");
+        $(currentUviEl).removeClass("favorable");
+        $(currentUviEl).addClass("severe");
+    }
 }
 
 
@@ -243,12 +276,14 @@ var displayCurrentWeather = function(city, temp, humidity, windSpeed, uvi) {
 var forecastData = function() {
     for (var i = 0; i < 5; i++) {
         var date = moment().add(i, "days");
-        fcastDates[i].textContent = date.format("MMMM Do")
-        fcastTemps[i].textContent = "Temp: " + forecastTemps[i];
+        fcastDates[i].textContent = date.format("MMMM Do");
+        fcastIcons[i].innerHTML = "<img src='http://openweathermap.org/img/wn/" + forecastIcons[i] + ".png' alt='" + forecastIconAlts[i] + "'/> "
+        fcastTemps[i].textContent = "Temp: " + forecastTemps[i] + " F°";
         fcastWinds[i].textContent = "Wind-Speed: " + forecastWinds[i] + " mph";
         fcastHumidities[i].textContent = "Humidity: " + forecastHumidities[i] + "%";
 
         fcastHeaders[i].appendChild(fcastDates[i])
+        fcastLists[i].appendChild(fcastIcons[i]);
         fcastLists[i].appendChild(fcastTemps[i]);
         fcastLists[i].appendChild(fcastWinds[i]);
         fcastLists[i].appendChild(fcastHumidities[i]);  
@@ -256,6 +291,12 @@ var forecastData = function() {
 };
 
 
+
+
+$("#city-list").on("click", "li", function() {
+    var city = $(this).text();
+    getCoordinates(city);
+})
 
 
 
