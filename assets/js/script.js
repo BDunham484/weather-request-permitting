@@ -29,6 +29,16 @@ var forecast2 = document.querySelector("#forecast-2");
 var forecast3 = document.querySelector("#forecast-3");
 var forecast4 = document.querySelector("#forecast-4");
 var forecast5 = document.querySelector("#forecast-5");
+var fcastDay1 =document.querySelector("#day-1");
+var fcastDay2 =document.querySelector("#day-2");
+var fcastDay3 =document.querySelector("#day-3");
+var fcastDay4 =document.querySelector("#day-4");
+var fcastDay5 =document.querySelector("#day-5");
+var fcastHeader1 = document.querySelector("#f-one");
+var fcastHeader2 = document.querySelector("#f-two");
+var fcastHeader3 = document.querySelector("#f-three");
+var fcastHeader4 = document.querySelector("#f-four");
+var fcastHeader5 = document.querySelector("#f-five");
 
 
 
@@ -40,6 +50,8 @@ var fcastLists = [forecast1, forecast2, forecast3, forecast4, forecast5];
 var fcastTemps = [fcastTemp1, fcastTemp2, fcastTemp3, fcastTemp4, fcastTemp5];
 var fcastWinds = [fcastWind1, fcastWind2, fcastWind3, fcastWind4, fcastWind5];
 var fcastHumidities = [fcastHumidity1, fcastHumidity2, fcastHumidity3, fcastHumidity4, fcastHumidity5];
+var fcastDates = [fcastDay1, fcastDay2, fcastDay3, fcastDay4, fcastDay5]
+var fcastHeaders = [fcastHeader1, fcastHeader2, fcastHeader3, fcastHeader4, fcastHeader5]
 
 
 
@@ -151,11 +163,13 @@ var getCurrentWeather = function(lat, lon, city) {
         //request was succesful
         if (response.ok) {
             response.json().then(function(data) {
+                console.log(data)
+                //assign values to variables from fetch object data
                 var currentTemp = data.current.temp
                 var currentHumidity = data.current.humidity
                 var currentWindSpeed = data.current.wind_speed
                 var currentUvi = data.current.uvi
-                
+                //clear arrays
                 while(forecastTemps.length > 0) {
                     forecastTemps.pop();
                 }
@@ -165,11 +179,13 @@ var getCurrentWeather = function(lat, lon, city) {
                 while(forecastHumidities.length > 0) {
                     forecastHumidities.pop();
                 }
+                //loop though forecast data
                 for (var i = 0; i <= 5; i++) {
                     forecastTemps.push(data.daily[i].temp.day);
                     forecastWinds.push(data.daily[i].wind_speed);
                     forecastHumidities.push(data.daily[i].humidity)
                 }
+                //call next functions
                 displayCurrentWeather(city, currentTemp, currentHumidity, currentWindSpeed, currentUvi)
                 forecastData();
             });
@@ -222,19 +238,23 @@ var displayCurrentWeather = function(city, temp, humidity, windSpeed, uvi) {
 
 
 
+
 //function that displays the forecast data
 var forecastData = function() {
     for (var i = 0; i < 5; i++) {
+        var date = moment().add(i, "days");
+        fcastDates[i].textContent = date.format("MMMM Do")
         fcastTemps[i].textContent = "Temp: " + forecastTemps[i];
         fcastWinds[i].textContent = "Wind-Speed: " + forecastWinds[i] + " mph";
         fcastHumidities[i].textContent = "Humidity: " + forecastHumidities[i] + "%";
 
+        fcastHeaders[i].appendChild(fcastDates[i])
         fcastLists[i].appendChild(fcastTemps[i]);
         fcastLists[i].appendChild(fcastWinds[i]);
-        fcastLists[i].appendChild(fcastHumidities[i]);
-        
+        fcastLists[i].appendChild(fcastHumidities[i]);  
     };
 };
+
 
 
 
