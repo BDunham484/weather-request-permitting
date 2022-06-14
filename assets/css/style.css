@@ -3,7 +3,7 @@ body {
 }
 
 header {
-    background-color: #312244;
+    background-color: #1C2835;
     min-height: 7vh;
 }
 
@@ -41,12 +41,12 @@ h2 {
 
 /* current weather data section */
 #current-bg {
-    background-color: #144552;
+    background-color: #556177;
 }
 #current-conditions {
     list-style: none;
     padding: 2vh 0;
-    color:antiquewhite;
+    color: #F1F5F2;
     font-weight: 400;
     font-size: 1.5rem;
 }
@@ -61,23 +61,47 @@ h2 {
 }
 
 .favorable {
-    background-color: green;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#3e8989+0,7db9e8+100&1+0,0+49 */
+background: -moz-linear-gradient(left,  rgba(62,137,137,1) 0%, rgba(93,161,184,0) 49%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left,  rgba(62,137,137,1) 0%,rgba(93,161,184,0) 49%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right,  rgba(62,137,137,1) 0%,rgba(93,161,184,0) 49%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3e8989', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+
+
 }
 
 .moderate {
-    background-color: yellow;
-    color: black;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#b68f40+0,7db9e8+100&1+0,0+49 */
+background: -moz-linear-gradient(left,  rgba(182,143,64,1) 0%, rgba(154,164,146,0) 49%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left,  rgba(182,143,64,1) 0%,rgba(154,164,146,0) 49%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right,  rgba(182,143,64,1) 0%,rgba(154,164,146,0) 49%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b68f40', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+
+
+
+    
+    /* color: black; */
 }
 
 .severe {
-    background-color: red;
+/* Permalink - use to edit and share this gradient: https://colorzilla.com/gradient-editor/#582334+0,7db9e8+100&1+0,0+49 */
+background: -moz-linear-gradient(left,  rgba(88,35,52,1) 0%, rgba(106,109,140,0) 49%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(left,  rgba(88,35,52,1) 0%,rgba(106,109,140,0) 49%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to right,  rgba(88,35,52,1) 0%,rgba(106,109,140,0) 49%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#582334', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+
+
+
+
+
 }
 
 /* 5day forecast styles */
 
 #five-day {
-    background-color: #14213d;
-    color: antiquewhite;
+    /* background-color: #14213d; */
+    background-color: #2A303C;
+    color: #F1F5F2;
 }
 
 h3 {
@@ -89,26 +113,31 @@ h3 {
 #forecast-1 {
     list-style: none;
     padding-inline-start: 0;
+    padding-left: 10px;
 }
 
 #forecast-2 {
     list-style: none;
     padding-inline-start: 0;
+    padding-left: 10px;
 }
 
 #forecast-3 {
     list-style: none;
     padding-inline-start: 0;
+    padding-left: 10px;
 }
 
 #forecast-4 {
     list-style: none;
     padding-inline-start: 0;
+    padding-left: 10px;
 }
 
 #forecast-5 {
     list-style: none;
     padding-inline-start: 0;
+    padding-left: 10px;
 }
 
 h4 {
@@ -116,3 +145,8 @@ h4 {
     font-size: 1rem;
     font-style: italic;
 }
+
+.card-header-styles {
+    background-color: #001029;
+}
+
