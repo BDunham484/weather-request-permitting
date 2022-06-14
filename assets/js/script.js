@@ -327,11 +327,21 @@ var displayCurrentWeather = function(city, icon, iconAlt, temp, high, low, humid
 
 
 
+//gets the forecast dates and appends them to the page
+for (var i = 0; i < 5; i++) {
+    var date = moment().add(i, "days");
+    fcastDates[i].textContent = date.format("ddd - MMMM Do");
+}
+
+
+
+
+
 //function that displays the forecast data
 var forecastData = function() {
     for (var i = 0; i < 5; i++) {
-        var date = moment().add(i, "days");
-        fcastDates[i].textContent = date.format("ddd - MMMM Do");
+        // var date = moment().add(i, "days");
+        // fcastDates[i].textContent = date.format("ddd - MMMM Do");
         fcastIcons[i].innerHTML = "<img src='https://openweathermap.org/img/wn/" + forecastIcons[i] + ".png' alt='" + forecastIconAlts[i] + "'/> "
         fcastTemps[i].textContent = "Temp: " + forecastTemps[i] + " F°";
         fcastHiLos[i].textContent = "Hi/Lo: " + forecastHiLos[i] + " F°";
