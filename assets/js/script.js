@@ -1,3 +1,4 @@
+//dom element variable declarations
 var userFormEl = document.querySelector("#user-form");
 var cityEl = document.querySelector("#city");
 var cityListEl = document.querySelector("#city-list");
@@ -52,25 +53,25 @@ var fcastIcon4 = document.querySelector("#icon-4");
 var fcastIcon5 = document.querySelector("#icon-5");
 var citySearchResultsEl = document.querySelector("#city-search-results")
 
-
+//array declarations
 var locationsArr = [];
 var citiesArr = [];
-var forecastTemps = [];
-var forecastHiLos = [];
-var forecastWinds = [];
-var forecastHumidities = [];
-var forecastIcons = [];
+var forecastTempsArr = [];
+var forecastHiLosArr = [];
+var forecastWindsArr = [];
+var forecastHumiditiesArr = [];
+var forecastIconsArr = [];
 var forecastIconAlts = [];
-var cityResultsLatArr = [];
-var cityResultsLonArr = [];
-var fcastLists = [forecast1, forecast2, forecast3, forecast4, forecast5];
-var fcastTemps = [fcastTemp1, fcastTemp2, fcastTemp3, fcastTemp4, fcastTemp5];
-var fcastHiLos = [fcastHiLo1, fcastHiLo2, fcastHiLo3, fcastHiLo4, fcastHiLo5]
-var fcastWinds = [fcastWind1, fcastWind2, fcastWind3, fcastWind4, fcastWind5];
-var fcastHumidities = [fcastHumidity1, fcastHumidity2, fcastHumidity3, fcastHumidity4, fcastHumidity5];
-var fcastDates = [fcastDay1, fcastDay2, fcastDay3, fcastDay4, fcastDay5];
-var fcastHeaders = [fcastHeader1, fcastHeader2, fcastHeader3, fcastHeader4, fcastHeader5];
-var fcastIcons = [fcastIcon1, fcastIcon2, fcastIcon3, fcastIcon4, fcastIcon5];
+var fcastListsArr = [forecast1, forecast2, forecast3, forecast4, forecast5];
+var fcastTempsArr = [fcastTemp1, fcastTemp2, fcastTemp3, fcastTemp4, fcastTemp5];
+var fcastHiLosArr = [fcastHiLo1, fcastHiLo2, fcastHiLo3, fcastHiLo4, fcastHiLo5]
+var fcastWindsArr = [fcastWind1, fcastWind2, fcastWind3, fcastWind4, fcastWind5];
+var fcastHumiditiesArr = [fcastHumidity1, fcastHumidity2, fcastHumidity3, fcastHumidity4, fcastHumidity5];
+var fcastDatesArr = [fcastDay1, fcastDay2, fcastDay3, fcastDay4, fcastDay5];
+var fcastHeadersArr = [fcastHeader1, fcastHeader2, fcastHeader3, fcastHeader4, fcastHeader5];
+var fcastIconsArr = [fcastIcon1, fcastIcon2, fcastIcon3, fcastIcon4, fcastIcon5];
+
+
 
 
 
@@ -81,11 +82,6 @@ var formSubmitHandler = function(event) {
     //get value from input element
     var city = cityEl.value.trim();
     if (city) {
-        //call createButton()
-        // createButton(city);
-        //call citySaves()
-        // citySaves(city);
-        //call getCoordinates()
         getCoordinates(city);
         cityEl.value = "";
     } else {
@@ -109,7 +105,6 @@ var createButton = function(city) {
      cityListEl.appendChild(cityListItemEl);
      //add bootstrap classes to ul #city-list
      cityListEl.classList.add("border", "border-2", "border-dark", "rounded", "bg-light");
-     //calls function that saves cities to local storage
 }
 
 
@@ -126,23 +121,17 @@ var cityResultBtns = function(city, lat, lon, id) {
     resultsListItem.classList.add("btn", "btn-secondary", "w-100", "my-3","py-2");
     //add unique ID to each list item
     resultsListItem.setAttribute("id", id);
+    //capture latitude and longitude
     resultsListItem.setAttribute("data-lat", lat);
     resultsListItem.setAttribute("data-lon", lon)
     //append list-item button to ul #city-list
     citySearchResultsEl.appendChild(resultsListItem);
-    
-    
-    
-    //append list-item button to ul #city-list
-    // citySearchResultsEl.appendChild(resultsListItem);
-    //add bootstrap classes to ul #city-list
-    // citySearchResultsEl.classList.add("border", "border-2", "border-dark", "rounded", "bg-light");
 }
 
 
 
 
-
+//function to remove searched cities list buttons
 var removeButton = function() {
         $(cityListEl).children().first().remove();
 };
@@ -150,6 +139,8 @@ var removeButton = function() {
 
 
 
+
+//function to remove search result buttons
 var removeRsltBtns = function() {
     $(citySearchResultsEl).children().remove();
 }
@@ -167,7 +158,6 @@ var citySaves = function(city) {
         localStorage.setItem("cities:", JSON.stringify(citiesArr));
     } else if (citiesArr.length <= 4) {
         citiesArr.push(city)
-        console.log(citiesArr)
         localStorage.setItem("cities:", JSON.stringify(citiesArr));
     }
 }
@@ -189,15 +179,15 @@ var cityLoad = function() {
             citiesArr.push(city);
             //call create button function and pass city as an argument
             createButton(city);
-        }
-    }   
+        };
+    };   
 };
 
 
 
 
 
-//function that fetches the coordinates by location name api
+//function that fetches the queried coordinates from openweather geocoding api for the initial search results
 var getCoordinates = function(city) {
     var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=3&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
 
@@ -205,10 +195,8 @@ var getCoordinates = function(city) {
         //request was succesful
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data)
+                //loop through data to get desired objects from the results
                 for (var i = 0; i < data.length; i++) {
-                    cityResultsLatArr.push(data[i].lat);
-                    cityResultsLonArr.push(data[i].lon);
                     var uniqueId = "item-" + i;
                     var latResults = data[i].lat;
                     var lonResults = data[i].lon;
@@ -218,14 +206,9 @@ var getCoordinates = function(city) {
                         stateResults = "";
                     }
                     var countryResults = data[i].country;
+                    //pass results to function that creates result display buttons
                     cityResultBtns(nameResults + ", " + stateResults + "\xa0 " + countryResults, latResults, lonResults, uniqueId)
-                }
-                console.log(cityResultsLatArr, cityResultsLonArr)
-                // //capture the latitude and longitude of the entered city
-                // var cityLat = data[0].lat;
-                // var cityLon = data[0].lon;
-                // //call getWeather() using captured coordinates
-                // getCurrentWeather(cityLat, cityLon, city);
+                };
             });
         } else {
             console.log("There was an error with the response");
@@ -237,6 +220,9 @@ var getCoordinates = function(city) {
 
 
 
+
+
+//function that gets coordinates from openweather geocoding api for the saved city buttons
 var getBtnCoordinates = function(city) {
     var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=3&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
 
@@ -244,20 +230,7 @@ var getBtnCoordinates = function(city) {
         //request was succesful
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data)
-                // for (var i = 0; i < data.length; i++) {
-                //     cityResultsLatArr.push(data[i].lat);
-                //     cityResultsLonArr.push(data[i].lon);
-                //     var uniqueId = "item-" + i;
-                //     var latResults = data[i].lat;
-                //     var lonResults = data[i].lon;
-                //     var nameResults = data[i].name;
-                //     var stateResults = data[i].state;
-                //     var countryResults = data[i].country;
-                //     cityResultBtns(nameResults + ", " + stateResults + ", " + countryResults, latResults, lonResults, uniqueId)
-                // }
-                // console.log(cityResultsLatArr, cityResultsLonArr)
-                // //capture the latitude and longitude of the entered city
+                //capture lat and lon
                 var cityLat = data[0].lat;
                 var cityLon = data[0].lon;
                 //call getWeather() using captured coordinates
@@ -271,7 +244,11 @@ var getBtnCoordinates = function(city) {
     });
 }
 
-//function that takes the lat and long from getCoordinates() and fetch weather data from openWeather
+
+
+
+
+//function that takes the lat and long from getCoordinates() and fetches weather data from openWeather
 var getCurrentWeather = function(lat, lon, city) {
     var apiUrl = "https://api.openweathermap.org/data/3.0/onecall?lat=" + lat + "&lon=" + lon + "&exclude=minutely,hourly,alerts&units=imperial&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
     
@@ -280,7 +257,6 @@ var getCurrentWeather = function(lat, lon, city) {
         //request was succesful
         if (response.ok) {
             response.json().then(function(data) {
-                console.log(data)
                 //assign values to variables from fetch object data
                 var currentIcon = data.current.weather[0].icon
                 var currentIconAlt = data.current.weather[0].main
@@ -291,32 +267,32 @@ var getCurrentWeather = function(lat, lon, city) {
                 var currentWindSpeed = data.current.wind_speed
                 var currentUvi = data.current.uvi
                 //clear arrays
-                while(forecastIcons.length > 0) {
-                    forecastIcons.pop();
+                while(forecastIconsArr.length > 0) {
+                    forecastIconsArr.pop();
                 }
                 while(forecastIconAlts.length > 0) {
                     forecastIconAlts.pop();
                 }
-                while(forecastTemps.length > 0) {
-                    forecastTemps.pop();
+                while(forecastTempsArr.length > 0) {
+                    forecastTempsArr.pop();
                 }
-                while(forecastHiLos.length > 0) {
-                    forecastHiLos.pop();
+                while(forecastHiLosArr.length > 0) {
+                    forecastHiLosArr.pop();
                 }
-                while(forecastWinds.length > 0) {
-                    forecastWinds.pop();
+                while(forecastWindsArr.length > 0) {
+                    forecastWindsArr.pop();
                 }
-                while(forecastHumidities.length > 0) {
-                    forecastHumidities.pop();
+                while(forecastHumiditiesArr.length > 0) {
+                    forecastHumiditiesArr.pop();
                 }
                 //loop though forecast data
                 for (var i = 1; i < 6; i++) {
-                    forecastIcons.push(data.daily[i].weather[0].icon);
+                    forecastIconsArr.push(data.daily[i].weather[0].icon);
                     forecastIconAlts.push(data.daily[i].weather[0].main)
-                    forecastTemps.push(data.daily[i].temp.day);
-                    forecastHiLos.push(data.daily[i].temp.max + "/" + data.daily[i].temp.min)
-                    forecastWinds.push(data.daily[i].wind_speed);
-                    forecastHumidities.push(data.daily[i].humidity)
+                    forecastTempsArr.push(data.daily[i].temp.day);
+                    forecastHiLosArr.push(data.daily[i].temp.max + "/" + data.daily[i].temp.min)
+                    forecastWindsArr.push(data.daily[i].wind_speed);
+                    forecastHumiditiesArr.push(data.daily[i].humidity)
                 }
                 //call next functions
                 displayCurrentWeather(city, currentIcon, currentIconAlt, currentTemp, currentHigh, currentLow, currentHumidity, currentWindSpeed, currentUvi)
@@ -329,6 +305,7 @@ var getCurrentWeather = function(lat, lon, city) {
         console.log("Does Not Compute!");
     });
 };
+
 
 
 
@@ -348,7 +325,7 @@ $(document).ready(function(){
 
 
 
-//function that display the current weather data dynamically to the page
+//function that displays the current weather data dynamically to the page
 var displayCurrentWeather = function(city, icon, iconAlt, temp, high, low, humidity, windSpeed, uvi) {
     //assigns text content of current weather data
     currentCityEl.textContent = city.toUpperCase();
@@ -378,8 +355,8 @@ var displayCurrentWeather = function(city, icon, iconAlt, temp, high, low, humid
         $(currentUviEl).removeClass("moderate");
         $(currentUviEl).removeClass("favorable");
         $(currentUviEl).addClass("severe");
-    }
-}
+    };
+};
 
 
 
@@ -388,8 +365,8 @@ var displayCurrentWeather = function(city, icon, iconAlt, temp, high, low, humid
 //gets the forecast dates and appends them to the page
 for (var i = 0; i < 5; i++) {
     var date = moment().add(i, "days");
-    fcastDates[i].textContent = date.format("ddd - MMMM Do");
-}
+    fcastDatesArr[i].textContent = date.format("ddd - MMMM Do");
+};
 
 
 
@@ -398,20 +375,18 @@ for (var i = 0; i < 5; i++) {
 //function that displays the forecast data
 var forecastData = function() {
     for (var i = 0; i < 5; i++) {
-        // var date = moment().add(i, "days");
-        // fcastDates[i].textContent = date.format("ddd - MMMM Do");
-        fcastIcons[i].innerHTML = "<img src='https://openweathermap.org/img/wn/" + forecastIcons[i] + ".png' alt='" + forecastIconAlts[i] + "'/> "
-        fcastTemps[i].textContent = "Temp: " + forecastTemps[i] + " F°";
-        fcastHiLos[i].textContent = "Hi/Lo: " + forecastHiLos[i] + " F°";
-        fcastWinds[i].textContent = "Wind-Speed: " + forecastWinds[i] + " mph";
-        fcastHumidities[i].textContent = "Humidity: " + forecastHumidities[i] + "%";
+        fcastIconsArr[i].innerHTML = "<img src='https://openweathermap.org/img/wn/" + forecastIconsArr[i] + ".png' alt='" + forecastIconAlts[i] + "'/> "
+        fcastTempsArr[i].textContent = "Temp: " + forecastTempsArr[i] + " F°";
+        fcastHiLosArr[i].textContent = "Hi/Lo: " + forecastHiLosArr[i] + " F°";
+        fcastWindsArr[i].textContent = "Wind-Speed: " + forecastWindsArr[i] + " mph";
+        fcastHumiditiesArr[i].textContent = "Humidity: " + forecastHumiditiesArr[i] + "%";
 
-        fcastHeaders[i].appendChild(fcastDates[i])
-        fcastLists[i].appendChild(fcastIcons[i]);
-        fcastLists[i].appendChild(fcastTemps[i]);
-        fcastLists[i].appendChild(fcastHiLos[i]);
-        fcastLists[i].appendChild(fcastWinds[i]);
-        fcastLists[i].appendChild(fcastHumidities[i]);  
+        fcastHeadersArr[i].appendChild(fcastDatesArr[i])
+        fcastListsArr[i].appendChild(fcastIconsArr[i]);
+        fcastListsArr[i].appendChild(fcastTempsArr[i]);
+        fcastListsArr[i].appendChild(fcastHiLosArr[i]);
+        fcastListsArr[i].appendChild(fcastWindsArr[i]);
+        fcastListsArr[i].appendChild(fcastHumiditiesArr[i]);  
     };
 };
 
@@ -434,11 +409,12 @@ clearListEl.addEventListener("click", function() {
     while (citiesArr.length > 0) {
         removeButton();
         citiesArr.pop();
-        // localStorage.setItem("cities:", JSON.stringify(citiesArr));
     }
     localStorage.setItem("cities:", JSON.stringify(citiesArr));
     cityListEl.classList.remove("border", "border-2", "border-dark", "rounded", "bg-light");
 })
+
+
 
 
 
@@ -449,29 +425,29 @@ userFormEl.addEventListener("submit", formSubmitHandler)
 //event listener on search results click
 citySearchResultsEl.addEventListener("click", function(event) {
     searchTarget = event.target
-    console.log(searchTarget)
+    //capture inner text of clicked buttons
     var city = searchTarget.innerText;
-    if (searchTarget.id === "item-0") {
+
+    //function that assigns what happens depending on which search result button was clicked
+    var ifClicked = function() {
+        //captures lat and lon from data-attributes passed in dynmaic HTML
         var lat = searchTarget.getAttribute("data-lat");
         var lon = searchTarget.getAttribute("data-lon");
+        //calls function that removes search result buttons
         removeRsltBtns();
+        //calls function that gets the current weather based off lat, lon and city name
         getCurrentWeather(lat, lon, city)
+        //saves city to localStorage
         citySaves(city);
-        createButton(city);
-    } else if (searchTarget.id === "item-1") {
-        var lat = searchTarget.getAttribute("data-lat");
-        var lon = searchTarget.getAttribute("data-lon");
-        removeRsltBtns();
-        getCurrentWeather(lat, lon, city)
-        citySaves(city);
-        createButton(city);
-    } else {
-        var lat = searchTarget.getAttribute("data-lat");
-        var lon = searchTarget.getAttribute("data-lon");
-        removeRsltBtns();
-        getCurrentWeather(lat, lon, city)
-        citySaves(city);
+        //creates buttons to display which cities were selected from search results
         createButton(city);
     }
-    
-})
+    //conditional that  assigns current weather conditions depending on which search result button was clicked. 
+    if (searchTarget.id === "item-0") {
+        ifClicked();
+    } else if (searchTarget.id === "item-1") {
+        ifClicked();
+    } else {
+        ifClicked();
+    };
+});
