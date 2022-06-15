@@ -50,6 +50,7 @@ var fcastIcon2 = document.querySelector("#icon-2");
 var fcastIcon3 = document.querySelector("#icon-3");
 var fcastIcon4 = document.querySelector("#icon-4");
 var fcastIcon5 = document.querySelector("#icon-5");
+var citySearchResultsEl = document.querySelector("#city-search-results")
 
 
 var locationsArr = [];
@@ -60,6 +61,8 @@ var forecastWinds = [];
 var forecastHumidities = [];
 var forecastIcons = [];
 var forecastIconAlts = [];
+var cityResultsLatArr = [];
+var cityResultsLonArr = [];
 var fcastLists = [forecast1, forecast2, forecast3, forecast4, forecast5];
 var fcastTemps = [fcastTemp1, fcastTemp2, fcastTemp3, fcastTemp4, fcastTemp5];
 var fcastHiLos = [fcastHiLo1, fcastHiLo2, fcastHiLo3, fcastHiLo4, fcastHiLo5]
@@ -79,9 +82,9 @@ var formSubmitHandler = function(event) {
     var city = cityEl.value.trim();
     if (city) {
         //call createButton()
-        createButton(city);
+        // createButton(city);
         //call citySaves()
-        citySaves(city);
+        // citySaves(city);
         //call getCoordinates()
         getCoordinates(city);
         cityEl.value = "";
@@ -113,9 +116,43 @@ var createButton = function(city) {
 
 
 
+//function that creates button for the city search results
+var cityResultBtns = function(city, lat, lon, id) {
+    //create list-items for each city
+    var resultsListItem = document.createElement("li");
+    //provide the city input as the textContent of the new list-item
+    resultsListItem.textContent = city;
+    //add bootstrap classes to list-item
+    resultsListItem.classList.add("btn", "btn-secondary", "w-100", "my-3","py-2");
+    //add unique ID to each list item
+    resultsListItem.setAttribute("id", id);
+    resultsListItem.setAttribute("data-lat", lat);
+    resultsListItem.setAttribute("data-lon", lon)
+    //append list-item button to ul #city-list
+    citySearchResultsEl.appendChild(resultsListItem);
+    
+    
+    
+    //append list-item button to ul #city-list
+    // citySearchResultsEl.appendChild(resultsListItem);
+    //add bootstrap classes to ul #city-list
+    // citySearchResultsEl.classList.add("border", "border-2", "border-dark", "rounded", "bg-light");
+}
+
+
+
+
+
 var removeButton = function() {
         $(cityListEl).children().first().remove();
 };
+
+
+
+
+var removeRsltBtns = function() {
+    $(citySearchResultsEl).children().remove();
+}
 
 
 
@@ -130,6 +167,7 @@ var citySaves = function(city) {
         localStorage.setItem("cities:", JSON.stringify(citiesArr));
     } else if (citiesArr.length <= 4) {
         citiesArr.push(city)
+        console.log(citiesArr)
         localStorage.setItem("cities:", JSON.stringify(citiesArr));
     }
 }
@@ -161,19 +199,33 @@ var cityLoad = function() {
 
 //function that fetches the coordinates by location name api
 var getCoordinates = function(city) {
-    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=5&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=3&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
 
     fetch(apiUrl).then(function(response) {
         //request was succesful
         if (response.ok) {
             response.json().then(function(data) {
-                // console.log(city)
-                // console.log(data)
-                //capture the latitude and longitude of the entered city
-                var cityLat = data[0].lat;
-                var cityLon = data[0].lon;
-                //call getWeather() using captured coordinates
-                getCurrentWeather(cityLat, cityLon, city);
+                console.log(data)
+                for (var i = 0; i < data.length; i++) {
+                    cityResultsLatArr.push(data[i].lat);
+                    cityResultsLonArr.push(data[i].lon);
+                    var uniqueId = "item-" + i;
+                    var latResults = data[i].lat;
+                    var lonResults = data[i].lon;
+                    var nameResults = data[i].name;
+                    var stateResults = data[i].state;
+                    if (stateResults === undefined) {
+                        stateResults = "";
+                    }
+                    var countryResults = data[i].country;
+                    cityResultBtns(nameResults + ", " + stateResults + "\xa0 " + countryResults, latResults, lonResults, uniqueId)
+                }
+                console.log(cityResultsLatArr, cityResultsLonArr)
+                // //capture the latitude and longitude of the entered city
+                // var cityLat = data[0].lat;
+                // var cityLon = data[0].lon;
+                // //call getWeather() using captured coordinates
+                // getCurrentWeather(cityLat, cityLon, city);
             });
         } else {
             console.log("There was an error with the response");
@@ -185,7 +237,39 @@ var getCoordinates = function(city) {
 
 
 
+var getBtnCoordinates = function(city) {
+    var apiUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + city + "&limit=3&appid=6bb1b7f8b26934ef2b1028b12a559a0f";
 
+    fetch(apiUrl).then(function(response) {
+        //request was succesful
+        if (response.ok) {
+            response.json().then(function(data) {
+                console.log(data)
+                // for (var i = 0; i < data.length; i++) {
+                //     cityResultsLatArr.push(data[i].lat);
+                //     cityResultsLonArr.push(data[i].lon);
+                //     var uniqueId = "item-" + i;
+                //     var latResults = data[i].lat;
+                //     var lonResults = data[i].lon;
+                //     var nameResults = data[i].name;
+                //     var stateResults = data[i].state;
+                //     var countryResults = data[i].country;
+                //     cityResultBtns(nameResults + ", " + stateResults + ", " + countryResults, latResults, lonResults, uniqueId)
+                // }
+                // console.log(cityResultsLatArr, cityResultsLonArr)
+                // //capture the latitude and longitude of the entered city
+                var cityLat = data[0].lat;
+                var cityLon = data[0].lon;
+                //call getWeather() using captured coordinates
+                getCurrentWeather(cityLat, cityLon, city);
+            });
+        } else {
+            console.log("There was an error with the response");
+        }
+    }).catch(function(error) {
+        console.log("Cannot compute!");
+    });
+}
 
 //function that takes the lat and long from getCoordinates() and fetch weather data from openWeather
 var getCurrentWeather = function(lat, lon, city) {
@@ -249,31 +333,6 @@ var getCurrentWeather = function(lat, lon, city) {
 
 
 
-
-
-// //function that gets image of city from google places api
-// var getCityPhoto = function(city) {
-//     var apiUrl = "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?input=" + city + "&inputtype=textquery&key=AIzaSyBUW1JKtmayDcxMZoa5hn5-FE9yjX-cdzs"
-
-//     console.log(apiUrl)
-
-//     fetch(apiUrl).then(function(response){
-//         console.log("this is the response: " + response)
-//        if (response.ok) {
-//         response.json().then(function(data) {
-//             console.log(data)
-//         })
-//        } else {
-//         console.log("shit aint working")
-//        }
-//     })
-
-// }
-
-// getCityPhoto("austin")
-
-
-
 //function that gets the current date
 var currentDate = function() {
     date = moment(new Date())
@@ -292,7 +351,6 @@ $(document).ready(function(){
 //function that display the current weather data dynamically to the page
 var displayCurrentWeather = function(city, icon, iconAlt, temp, high, low, humidity, windSpeed, uvi) {
     //assigns text content of current weather data
-    var space = "     "
     currentCityEl.textContent = city.toUpperCase();
     currentIconEl.innerHTML = "<img src='https://openweathermap.org/img/wn/" + icon + ".png' alt='" + iconAlt + "'/> ";
     currentTempEl.textContent = "Temp: " + temp + " F° \xa0 \xa0 \xa0 \xa0 High: " + high + " F° \xa0 \xa0 \xa0 \xa0 Low: " + low + " F°";
@@ -364,7 +422,7 @@ var forecastData = function() {
 //function that listen for clicks on dynamic button elements and runs getCoordinates() based on it's text
 $("#city-list").on("click", "li", function() {
     var city = $(this).text();
-    getCoordinates(city);
+    getBtnCoordinates(city);
 })
 
 
@@ -388,3 +446,32 @@ clearListEl.addEventListener("click", function() {
 cityLoad();
 //form event listener on submit
 userFormEl.addEventListener("submit", formSubmitHandler)
+//event listener on search results click
+citySearchResultsEl.addEventListener("click", function(event) {
+    searchTarget = event.target
+    console.log(searchTarget)
+    var city = searchTarget.innerText;
+    if (searchTarget.id === "item-0") {
+        var lat = searchTarget.getAttribute("data-lat");
+        var lon = searchTarget.getAttribute("data-lon");
+        removeRsltBtns();
+        getCurrentWeather(lat, lon, city)
+        citySaves(city);
+        createButton(city);
+    } else if (searchTarget.id === "item-1") {
+        var lat = searchTarget.getAttribute("data-lat");
+        var lon = searchTarget.getAttribute("data-lon");
+        removeRsltBtns();
+        getCurrentWeather(lat, lon, city)
+        citySaves(city);
+        createButton(city);
+    } else {
+        var lat = searchTarget.getAttribute("data-lat");
+        var lon = searchTarget.getAttribute("data-lon");
+        removeRsltBtns();
+        getCurrentWeather(lat, lon, city)
+        citySaves(city);
+        createButton(city);
+    }
+    
+})

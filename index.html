@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- BOOTSTRAP -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- CSS STYLESHEET -->
     <link rel="stylesheet" href="./assets/css/style.css">
+    <!-- GOOGLE FONTS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    
+    <!-- TITLE -->
     <title>Weather Dashboard</title>
 </head>
+<!-- HTML BODY -->
 <body class="flex-column">
+    <!-- HEADER -->
     <header>
         <div class="container-fluid">
             <div class="row">
@@ -23,12 +28,14 @@
                 </div>
             </div>
         </div>
-        
     </header>
+    <!-- MAIN CONTENT -->
     <main>
         <div class="container-fluid">
             <div class="row row-height ">
+                <!-- SEARCH COLUMN -->
                 <div class="col-12 col-xl-4 min-vh-25 border border-2 border-dark d-flex flex-column" id="search">
+                    <!-- CITY SEARCH CARD -->
                     <div class="card mt-5 border border-2 border-dark">
                         <h2 class="card-header text-uppercase border-bottom border-2 border-dark">
                             Search By City
@@ -38,32 +45,37 @@
                             <input type="text" id="city" name="city" autofocus="true" class="form-input w-100 my-2 py-1" placeholder="Enter A City">
                             <button class="btn btn-secondary w-100 mt-3 py-2" type="submit" id="submit-city-btn">Get Weather</button>
                         </form>
+                        <!-- UNORDERED LIST ELEMENT TO HOUSE DYNAMIC CITY SEARCH RESULT LIST ITEMS -->
+                        <ul id="city-search-results" class="mx-4">
+                        </ul>
                     </div>
+                    <!-- UNORDERED LIST ELEMENT TO HOUSE DYNAMIC SELECTED CIY LIST ITEMS -->
                     <ul id="city-list" class="px-3 mt-5">
-
                     </ul>
-                    <!-- <div class="d-flex align-items-end"> -->
-                        <button class="btn btn-secondary w-100 mt-auto mb-5 py-2" id="clear-list">Clear List</button>
-                    <!-- </div> -->
-                    
+                    <!-- BUTTON TO CLEAR SELECTED CITY LIST ITEMS -->
+                    <button class="btn btn-secondary w-100 mt-auto mb-5 py-2" id="clear-list">Clear List</button>
                 </div>
-                <div class="col-12 col-xl-8" id="conditions">
+                <!-- COLUMN FOR CURRENT AND FORECAST CONDITIONS -->
+                <section class="col-12 col-xl-8" id="conditions">
                     <div class="row row-height">
-                        <div class="col-12 border border-2 border-dark col-height bg-gradient" id="current-bg">
+                        <!-- CURRENT CONDITIONS COLUMN -->
+                        <section class="col-12 border border-2 border-dark col-height bg-gradient" id="current-bg">
                             <ul class="ps-5 my-5" id="current-conditions">
-                                <li class="my-3" id="current-city">________</li>
-                                <li class="my-3" id="current-date"></li>
-                                <li class="my-3" id="current-icon">--</li>
-                                <li class="my-3" id="current-temp">Temp: </li>
-                                <li class="my-3" id="current-humidity">Humidity:</li>
-                                <li class="my-3" id="current-wind-speed">Wind Speed:</li>
-                                <li class="my-3" id="current-uvi">UV Index:</li>
+                                <li class="my-3 ps-3" id="current-city">&nbsp</li>
+                                <li class="my-3 ps-3" id="current-date"></li>
+                                <li class="my-3 ps-3" id="current-icon">--</li>
+                                <li class="my-3 ps-3" id="current-temp">Temp: </li>
+                                <li class="my-3 ps-3" id="current-humidity">Humidity:</li>
+                                <li class="my-3 ps-3" id="current-wind-speed">Wind Speed:</li>
+                                <li class="my-3 ps-3" id="current-uvi">UV Index:</li>
                             </ul>
-                        </div>
-                        <div class="col-12 border border-2 border-dark col-height bg-gradient" id="five-day">
+                        </section>
+                        <!-- 5DAY FORECAST COLUMN -->
+                        <section class="col-12 border border-2 border-dark col-height bg-gradient" id="five-day">
                             <h3>5-DAY FORECAST</h3>
                            <div class="row align-items-center justify-content-around mt-5 mt-md-0" id="forecast-height">
-                                <div class="d-flex justify-content-around flex-column flex-md-row lh-lg">
+                                <section class="d-flex justify-content-around flex-column flex-md-row lh-lg">
+                                    <!-- 5DAY FORECAST CARDS -->
                                     <div class="card border border-2 border-light bg-secondary col-md-2 my-3 my-md-0 mx-xxl-2">
                                         <div id="f-one" class="card-header-styles bg-gradient">
                                             <h4 class="card-header text-uppercase border-bottom border-2 border-light lh-lg text-center" id="day-1">
@@ -139,19 +151,21 @@
                                             <li id="humidity-5">Humidity: -- %</li>
                                         </ul>
                                     </div>
-                                </div>
+                                </section>
                            </div>
-                        </div>
+                        </section>
                     </div>
-                </div>
+                </section>
             </div>
         </div>
-        
     </main>
-
+    <!-- JQUERY -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- BOOTSTRAP -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+    <!-- MOMENT() -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <!-- JS -->
     <script src="./assets/js/script.js"></script>
 </body>
 </html>
