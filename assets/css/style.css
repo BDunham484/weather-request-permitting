@@ -43,6 +43,7 @@ h2 {
 #current-bg {
     background-color: #556177;
 }
+
 #current-conditions {
     list-style: none;
     padding: 2vh 0;
@@ -80,7 +81,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b68f40', end
 
 
     
-    /* color: black; */
+    
 }
 
 .severe {
