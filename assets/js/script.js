@@ -96,15 +96,15 @@ var formSubmitHandler = function(event) {
 //function that creates buttons used in cityListHandler and cityLoad
 var createButton = function(city) {
     //create list-items for each city
-     var cityListItemEl = document.createElement("li");
-     //provide the city input as the textContent of the new list-item
-     cityListItemEl.textContent = city;
-     //add bootstrap classes to list-item
-     cityListItemEl.classList.add("btn", "btn-secondary", "w-100", "my-3","py-2");
-     //append list-item button to ul #city-list
-     cityListEl.appendChild(cityListItemEl);
-     //add bootstrap classes to ul #city-list
-     cityListEl.classList.add("border", "border-2", "border-dark", "rounded", "bg-light");
+    var cityListItemEl = document.createElement("li");
+    //provide the city input as the textContent of the new list-item
+    cityListItemEl.textContent = city;
+    //add bootstrap classes to list-item
+    cityListItemEl.classList.add("btn", "btn-secondary", "w-100", "my-3","py-2");
+    //append list-item button to ul #city-list
+    cityListEl.appendChild(cityListItemEl);
+    //add bootstrap classes to ul #city-list
+cityListEl.classList.add("border", "border-2", "border-dark", "rounded", "bg-light");
 }
 
 
@@ -364,7 +364,7 @@ var displayCurrentWeather = function(city, icon, iconAlt, temp, high, low, humid
 
 //gets the forecast dates and appends them to the page
 for (var i = 0; i < 5; i++) {
-    var date = moment().add(i, "days");
+    var date = moment().add((i+1), "days");
     fcastDatesArr[i].textContent = date.format("ddd - MMMM Do");
 };
 
