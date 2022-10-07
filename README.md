@@ -13,6 +13,8 @@ A server-side API based weather dashboard that runs in the browser
 
 * CSS
 
+* JavaScript
+
 * Bootstrap
 
 * JQuery
